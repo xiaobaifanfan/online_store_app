@@ -26,57 +26,18 @@
 			</view>
 		</view>
 		<!-- 分类 -->
-<!-- 		<view class="cate-section">
-			<view class="cate-item">
+		<view class="cate-section" v-for="items in cateList">
+			<view class="cate-item" v-for="item in items" :key="items.length" @click="goToProductList(item.id)">
 				<image src="/static/temp/c3.png"></image>
-				<text>环球美食</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c5.png"></image>
-				<text>个护美妆</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c6.png"></image>
-				<text>营养保健</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c7.png"></image>
-				<text>家居厨卫</text>
-			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c8.png"></image>
-				<text>速食生鲜</text>
+				<text>{{item.name}}</text>
 			</view>
 		</view>
 		
-		<view class="ad-1">
+<!-- 		<view class="ad-1">
 			<image src="/static/temp/ad1.jpg" mode="scaleToFill"></image>
-		</view> -->
-		
-		<!-- 秒杀楼层 -->
-		<!-- <view class="seckill-section m-t">
-			<view class="s-header">
-				<image class="s-img" src="/static/temp/secskill-img.jpg" mode="widthFix"></image>
-				<text class="tip">8点场</text>
-				<text class="hour timer">07</text>
-				<text class="minute timer">13</text>
-				<text class="second timer">55</text>
-				<text class="yticon icon-you"></text>
-			</view>
-			<scroll-view class="floor-list" scroll-x>
-				<view class="scoll-wrapper">
-					<view 
-						v-for="(item, index) in goodsList" :key="index"
-						class="floor-item"
-						@click="navToDetailPage(item)"
-					>
-						<image :src="item.image" mode="aspectFill"></image>
-						<text class="title clamp">{{item.title}}</text>
-						<text class="price">￥{{item.price}}</text>
-					</view>
-				</view>
-			</scroll-view>
-		</view> -->
+		</view>
+		 -->
+
 
 		<!-- 猜你喜欢 -->
 		<view class="f-header m-t">
@@ -116,7 +77,11 @@
 				swiperCurrent: 0,
 				swiperLength: 0,
 				carouselList: [],
-				goodsList: []
+				goodsList: [],
+				cateList:[
+					[],[]
+				]
+				
 			};
 		},
 
@@ -125,6 +90,11 @@
 			
 		},
 		methods: {
+			goToProductList(id){
+				uni.navigateTo({
+					url:'/pages/product/list?cate_id='+id
+				})
+			},
 			/**
 			 * 请求静态数据只是为了代码不那么乱
 			 * 分次请求未作整合
@@ -134,6 +104,26 @@
 				this.$request('goods','GET',{is_hot:false},this,function(res){
 					that.goodsList = res.results
 					
+				})
+				this.$request('categorys','GET',{},this,function(res){
+					let arr = []
+					let index = 0
+					res.forEach(f=>{
+						if(f.is_tab)
+						{
+							arr = arr.concat({id:f.id,name:f.name})
+							if(arr.length == 4)
+							{
+								console.log(1)
+								that.cateList[index] = arr
+								index++;
+								arr = []
+							}
+						}
+						that.$set(that.cateList,that.cateList,true);
+					})
+					// if(arr != []){that.cateList[index] = arr;console.log(2);}
+					console.log(that.cateList)
 				})
 				
 				let carouselList = await this.$api.json('carouselList');
@@ -160,28 +150,34 @@
 			},
 		},
 		// #ifndef MP
-		// 标题栏input搜索框点击
-		onNavigationBarSearchInputClicked: async function(e) {
-			this.$api.msg('点击了搜索框');
+		onNavigationBarSearchInputConfirmed(e) {
+			console.log(e)
+			uni.navigateTo({
+				url:'/pages/product/list?search='+e.text
+			})
 		},
+		// 标题栏input搜索框点击
+		// onNavigationBarSearchInputClicked: async function(e) {
+		// 	this.$api.msg('点击了搜索框');
+		// },
 		//点击导航栏 buttons 时触发
 		onNavigationBarButtonTap(e) {
-			const index = e.index;
-			if (index === 0) {
-				this.$api.msg('点击了扫描');
-			} else if (index === 1) {
-				// #ifdef APP-PLUS
-				const pages = getCurrentPages();
-				const page = pages[pages.length - 1];
-				const currentWebview = page.$getAppWebview();
-				currentWebview.hideTitleNViewButtonRedDot({
-					index
-				});
-				// #endif
-				uni.navigateTo({
-					url: '/pages/notice/notice'
-				})
-			}
+			// const index = e.index;
+			// if (index === 0) {
+			// 	this.$api.msg('点击了扫描');
+			// } else if (index === 1) {
+			// 	// #ifdef APP-PLUS
+			// 	const pages = getCurrentPages();
+			// 	const page = pages[pages.length - 1];
+			// 	const currentWebview = page.$getAppWebview();
+			// 	currentWebview.hideTitleNViewButtonRedDot({
+			// 		index
+			// 	});
+			// 	// #endif
+			// 	uni.navigateTo({
+			// 		url: '/pages/notice/notice'
+			// 	})
+			// }
 		}
 		// #endif
 	}

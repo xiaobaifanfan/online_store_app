@@ -118,14 +118,29 @@
 				coverTransition: '0s',
 				moving: false,
 				username:'未知',
+				type:0,
 			}
+		},
+		onLoad() {
+
 		},
 		onShow(){
 			if(!this.hasLogin)
 			{
-				uni.navigateTo({
-					url:'/pages/public/login'
-				})
+				if(this.type == 0)
+				{
+					this.type = 1;
+					uni.navigateTo({
+						url:'/pages/public/login'
+					})
+					
+				}else{
+					this.type = 0;
+					uni.switchTab({
+						url:'/pages/index/index'
+					})
+				}
+				
 			}
 			this.username = this.$store.state.username
 		},

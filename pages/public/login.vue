@@ -69,7 +69,9 @@
 				uni.navigateBack();
 			},
 			toRegist(){
-				this.$api.msg('去注册');
+				uni.navigateTo({
+					url:'/pages/public/register'
+				})
 			},
 			async toLogin(){
 				this.logining = true;

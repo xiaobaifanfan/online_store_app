@@ -1,7 +1,8 @@
 <template>
 	<view>
-		<view class="title" style="margin-top: 10%;">留言列表</view>
-		<view class="genaral-area">
+		
+		<view class="title" style="margin-top: 10%;">留言列表(长按删除留言)	</view>
+<!-- 		<view class="genaral-area">
 			<view class="flex-box tc thead">
 				<view class="item-2">日期</view>
 				<view class="item-2">主题</view>
@@ -24,10 +25,30 @@
 					</view>
 				</view>
 			</view>
+		</view> -->
+		
+		<view class="cu-list menu-avatar" v-for="item in messageList">
+			<view class="cu-item" @longtap="drop(item.id)" @click="goToDetail(item)">
+				<view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg);"></view>
+				<view class="content">
+					<view class="text-grey">{{item.subject}}</view>
+					<view class="text-gray text-sm flex">
+						<view class="text-cut">
+							<!-- <text class="cuIcon-infofill text-red  margin-right-xs"></text> -->
+							{{item.message}}
+						</view> </view>
+				</view>
+				<view class="action">
+					<view class="text-grey text-xs">{{item.add_time.split(' ')[0].split('-')[1]}} - {{item.add_time.split(' ')[0].split('-')[2]}}</view>
+					<!-- <view class="cu-tag round bg-grey sm">5</view> -->
+				</view>
+			</view>
 		</view>
 		
 		
-		<view style="margin-top: 20%;">创建留言	</view>
+		
+		
+		<view style="margin-top: 20%;">创建留言 </view>
 		
 		<view class="yt-list">
 			<view class="yt-list-cell desc-cell">
@@ -52,7 +73,7 @@
 			</view>
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">内容</text>
-				<input class="desc" type="text" v-model="form.message" placeholder="请填写内容信息" placeholder-class="placeholder" />
+				<textarea class="desc" type="text" v-model="form.message" placeholder="请填写内容信息" placeholder-class="placeholder"></textarea>
 			</view>
 			<view class="yt-list-cell desc-cell" @click="openFile">
 				<text class="cell-tit clamp">上传文件</text>
@@ -62,6 +83,8 @@
 		<view class="list-cell log-out-btn" style="background-color: #C0C4CC;border-radius: 20px;width: 70%;margin-left: 15%;"  @click="submit">
 			<text class="cell-tit">提 交</text>
 		</view>
+	
+		
 	 
 	</view>
 </template>
@@ -87,6 +110,11 @@
 			}
 		},	
 		methods: {
+			goToDetail:function(item){
+				uni.navigateTo({
+					url:'/pages/user/message/detail?item=' + JSON.stringify(item)
+				})
+			},
 			bindPickerChange: function(e) {
 				this.index = e.target.value 
 				this.form.message_type = e.target.value + 1

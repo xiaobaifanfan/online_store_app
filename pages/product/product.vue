@@ -401,6 +401,7 @@
 						title:'添加购物车成功',
 						icon:'success'
 					})
+					that.toggleSpec()
 				},function(res){
 					uni.showToast({
 						title:'添加购物车失败',

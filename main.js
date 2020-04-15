@@ -111,12 +111,14 @@ Vue.prototype.$request = function(api,method = 'GET',data = {},jy_that = this,su
 			}
 			else
 			{
+				fail(res)
+				// console.log('err')
 				// jy_that.$refs.c1.msg('请求错误,请检查网络','错误');
-				uni.showToast({
-				    title: res.data.non_field_errors[0] || '请求错误,请检查网络',
-					icon:'none',
-				    duration: 2000
-				});
+				// uni.showToast({
+				//     title: res.data.non_field_errors[0] || '请求错误,请检查网络',
+				// 	icon:'none',
+				//     duration: 2000
+				// });
 				// this.vusui.msg('请求错误,请检查网络')
 			}
 			// else{

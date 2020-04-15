@@ -80,13 +80,15 @@
 				cateId: 0, //已选三级分类id
 				priceOrder: 0, //1 价格从低到高 2价格从高到低
 				cateList: [],
-				goodsList: []
+				goodsList: [],
+				search:'',
 			};
 		},
 		
 		onLoad(options){
 			this.cateId = options.cate_id
 			this.title = options.cate_name
+			this.search = options.search
 			console.log(options)
 			// #ifdef H5
 			this.headerTop = document.getElementsByTagName('uni-page-head')[0].offsetHeight+'px';
@@ -138,7 +140,7 @@
 				}
 				
 				// let goodsList = await this.$api.json('goodsList');
-				this.$request('goods','GET',{top_category:that.cateId,page:that.thisPage,ordering:that.ordering},this,function(res){
+				this.$request('goods','GET',{top_category:that.cateId,page:that.thisPage,ordering:that.ordering,search:that.search},this,function(res){
 					console.log(res)
 					if(type === 'refresh'){
 						that.goodsList = [];
