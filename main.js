@@ -60,16 +60,7 @@ Vue.prototype.$request = function(api,method = 'GET',data = {},jy_that = this,su
 	
 	var storageToken = jy_that.$store.state.token;
 	
-	// try {
-	//     const value = uni.getStorageSync('token');
-	// 	storageToken = value
-	// } catch (e) {
-	//     uni.showToast({
-	//         title: '系统错误',
-	//     	icon:'none',
-	//         duration: 2000
-	//     });
-	// }
+	
 
 	jy_that.jyLoading = true
 

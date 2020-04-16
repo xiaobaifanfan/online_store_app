@@ -14,8 +14,8 @@
 			<!-- 背景色区域 -->
 			<view class="titleNview-background" :style="{backgroundColor:'#09c762'}"></view>
 			<swiper class="carousel" circular @change="swiperChange">
-				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
-					<image :src="item.src" />
+				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item">
+					<image :src="item.image" />
 				</swiper-item>
 			</swiper>
 			<!-- 自定义swiper指示器 -->
@@ -27,7 +27,7 @@
 		</view>
 		<!-- 分类 -->
 		<view class="cate-section" v-for="items in cateList">
-			<view class="cate-item" v-for="item in items" :key="items.length" @click="goToProductList(item.id)">
+			<view class="cate-item" v-for="item in items" :key="items.length" @click="goToProductList(item.id,item.name)">
 				<image src="/static/temp/c3.png"></image>
 				<text>{{item.name}}</text>
 			</view>
@@ -88,11 +88,13 @@
 		onLoad() {
 			this.loadData();
 			
+			
 		},
 		methods: {
-			goToProductList(id){
+			
+			goToProductList(cate_id,cate_name){
 				uni.navigateTo({
-					url:'/pages/product/list?cate_id='+id
+					url: `/pages/product/list?cate_id=${cate_id}&cate_name=${cate_name}`
 				})
 			},
 			/**
@@ -105,16 +107,17 @@
 					that.goodsList = res.results
 					
 				})
-				this.$request('categorys','GET',{},this,function(res){
+				this.$request('categorys','GET',{is_tab:true},this,function(res){
 					let arr = []
 					let index = 0
 					res.forEach(f=>{
 						if(f.is_tab)
 						{
 							arr = arr.concat({id:f.id,name:f.name})
+							console.log(arr)
 							if(arr.length == 4)
 							{
-								console.log(1)
+								
 								that.cateList[index] = arr
 								index++;
 								arr = []
@@ -123,16 +126,27 @@
 						that.$set(that.cateList,that.cateList,true);
 					})
 					// if(arr != []){that.cateList[index] = arr;console.log(2);}
-					console.log(that.cateList)
+					//console.log(that.cateList)
 				})
 				
-				let carouselList = await this.$api.json('carouselList');
-				this.titleNViewBackground = carouselList[0].background;
-				this.swiperLength = carouselList.length;
-				this.carouselList = carouselList;
+				// let carouselList = await this.$api.json('carouselList');
+				// this.titleNViewBackground = carouselList[0].background;
+				// this.swiperLength = carouselList.length;
+				// this.carouselList = carouselList;
 				
-				// let goodsList = await this.$api.json('goodsList');
-				// this.goodsList = goodsList || [];
+				uni.request({
+				    url: 'http://shop.projectsedu.com/banners/',
+				    success: (res) => {
+				        console.log(res);
+						let carouselList=res.data;
+						this.titleNViewBackground = carouselList[0].background;
+						this.swiperLength = carouselList.length;
+						this.carouselList = carouselList;
+						
+				    }
+				});
+				
+				
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {

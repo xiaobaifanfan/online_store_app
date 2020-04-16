@@ -20,11 +20,13 @@
     "pages/product/list",
     "pages/user/fav/fav",
     "pages/user/message/message",
-    "pages/order/orderDetail"
+    "pages/order/orderDetail",
+    "pages/public/register",
+    "pages/user/message/detail"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "慕学生鲜",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#f8f8f8"
   },

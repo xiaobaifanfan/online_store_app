@@ -4,24 +4,19 @@
 			<view class="nav-item" :class="{current: ordering === null}" @click="tabClick(0)">
 				综合排序
 			</view>
-			<!-- <view class="nav-item" :class="{current: filterIndex === 1}" @click="tabClick(1)">
-				销量优先	
-			</view> -->
-			<view class="nav-item" :class="{current:  ordering=== '+sold_num' ||  ordering=== '-sold_num'}" @click="tabClick(1)">
+			<view class="nav-item" :class="{current: ordering=== '-sold_num'}" @click="tabClick(1)">
 				<text>销量</text>
 				<view class="p-box">
-					<text :class="{active: ordering=== '+sold_num'}" class="yticon icon-shang"></text>
 					<text :class="{active: ordering=== '-sold_num'}" class="yticon icon-shang xia"></text>
 				</view>
 			</view>
-			<view class="nav-item" :class="{current: ordering=== '+shop_price' || ordering=== '-shop_price'}" @click="tabClick(2)">
+			<view class="nav-item" :class="{current:  ordering=== '-shop_price'}" @click="tabClick(2)">
 				<text>价格</text>
 				<view class="p-box">
-					<text :class="{active: ordering=== '+shop_price'}" class="yticon icon-shang"></text>
 					<text :class="{active: ordering=== '-shop_price'}" class="yticon icon-shang xia"></text>
 				</view>
 			</view>
-			<text class="cate-item yticon icon-fenlei1" @click="toggleCateMask('show')"></text>
+			
 		</view>
 		<view class="goods-list">
 			<view 
@@ -74,7 +69,7 @@
 				title:'',
 				cateMaskState: 0, //分类面板展开状态
 				headerPosition:"fixed",
-				headerTop:"0px",
+				headerTop:"44px",
 				loadingType: 'more', //加载更多状态
 				filterIndex: 0, 
 				cateId: 0, //已选三级分类id
@@ -86,16 +81,17 @@
 		},
 		
 		onLoad(options){
+			
 			this.cateId = options.cate_id
 			this.title = options.cate_name
 			this.search = options.search
 			console.log(options)
 			// #ifdef H5
-			this.headerTop = document.getElementsByTagName('uni-page-head')[0].offsetHeight+'px';
+			
 			// #endif
 			// this.loadCateList(options.fid,options.sid);
 			this.loadData();
-			console.log(this.ordering)
+			
 		},
 		onPageScroll(e){
 			//兼容iOS端下拉时顶部漂移
@@ -182,20 +178,11 @@
 					this.ordering = null
 				}else if(index === 1)
 				{
-					if(this.ordering == '+sold_num')
-					{
-						this.ordering = '-sold_num'
-					}else{
-						this.ordering = '+sold_num'
-					}
+					this.ordering = '-sold_num'
 					
 				}else{
-					if(this.ordering == '+shop_price')
-					{
-						this.ordering = '-shop_price'
-					}else{
-						this.ordering = '+shop_price'
-					}
+					this.ordering = '-shop_price'
+
 				}
 				
 				this.loadData('refresh', 1);
