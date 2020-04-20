@@ -178,33 +178,13 @@
 					this.ordering = null
 				}else if(index === 1)
 				{
-					this.ordering = '-sold_num'
-					
+					this.ordering = '-sold_num'					
 				}else{
 					this.ordering = '-shop_price'
-
 				}
 				
 				this.loadData('refresh', 1);
 				
-				
-				// if(this.filterIndex === index && index !== 2){
-				// 	return;
-				// }
-				// this.filterIndex = index;
-				// if(index === 2){
-				// 	this.priceOrder = this.priceOrder === 1 ? 2: 1;
-				// }else{
-				// 	this.priceOrder = 0;
-				// }
-				// uni.pageScrollTo({
-				// 	duration: 300,
-				// 	scrollTop: 0
-				// })
-				// this.loadData('refresh', 1);
-				// uni.showLoading({
-				// 	title: '正在加载'
-				// })
 			},
 			//显示分类面板
 			toggleCateMask(type){

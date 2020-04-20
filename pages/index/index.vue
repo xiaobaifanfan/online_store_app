@@ -15,7 +15,7 @@
 			<view class="titleNview-background" :style="{backgroundColor:'#09c762'}"></view>
 			<swiper class="carousel" circular @change="swiperChange">
 				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item">
-					<image :src="item.image" />
+					<image  :src="item.image" />
 				</swiper-item>
 			</swiper>
 			<!-- 自定义swiper指示器 -->
@@ -27,8 +27,8 @@
 		</view>
 		<!-- 分类 -->
 		<view class="cate-section" v-for="items in cateList">
-			<view class="cate-item" v-for="item in items" :key="items.length" @click="goToProductList(item.id,item.name)">
-				<image src="/static/temp/c3.png"></image>
+			<view class="cate-item" v-for="item in items"  :key="items.length" @click="goToProductList(item.id,item.name)">
+				<image style="border: #09BB07 1rpx solid;" :src="item.img"></image>
 				<text>{{item.name}}</text>
 			</view>
 		</view>
@@ -79,7 +79,8 @@
 				carouselList: [],
 				goodsList: [],
 				cateList:[
-					[],[]
+					[{name:"生鲜食品",id:'1',img:'../../static/temp/niupai.png'},{name:'酒水饮料',id:'24',img:'../../static/temp/jiushui.png'},{name:'粮油副食',id:'40',img:'../../static/temp/liangyou.png'},{name:'蔬菜水果',id:'57',img:'../../static/temp/Vegetables-.png'}],
+					[{name:'休闲食品',id:'73',img:'../../static/temp/tangguo.png'},{name:'奶类食品',id:'102',img:'../../static/temp/niunai.png'},{name:'天然干货',id:'108',img:'../../static/temp/mogu.png'},{name:'精选茗茶',id:'117',img:'../../static/temp/tea.png'}]
 				]
 				
 			};
@@ -107,33 +108,30 @@
 					that.goodsList = res.results
 					
 				})
-				this.$request('categorys','GET',{is_tab:true},this,function(res){
-					let arr = []
-					let index = 0
-					res.forEach(f=>{
-						if(f.is_tab)
-						{
-							arr = arr.concat({id:f.id,name:f.name})
-							console.log(arr)
-							if(arr.length == 4)
-							{
+				// this.$request('categorys','GET',{is_tab:true},this,function(res){
+				// 	let arr = []
+				// 	let index = 0
+					
+				// 	res.forEach(f=>{
+				// 		if(f.is_tab)
+				// 		{
+				// 			arr = arr.concat({id:f.id,name:f.name})
+				// 			console.log(arr)
+				// 			if(arr.length == 4)
+				// 			{
 								
-								that.cateList[index] = arr
-								index++;
-								arr = []
-							}
-						}
-						that.$set(that.cateList,that.cateList,true);
-					})
+				// 				that.cateList[index] = arr
+				// 				index++;
+				// 				arr = []
+				// 			}
+				// 		}
+				// 		that.$set(that.cateList,that.cateList,true);
+				// 	})
 					// if(arr != []){that.cateList[index] = arr;console.log(2);}
 					//console.log(that.cateList)
-				})
+				// })
 				
-				// let carouselList = await this.$api.json('carouselList');
-				// this.titleNViewBackground = carouselList[0].background;
-				// this.swiperLength = carouselList.length;
-				// this.carouselList = carouselList;
-				
+				//轮播图 
 				uni.request({
 				    url: 'http://shop.projectsedu.com/banners/',
 				    success: (res) => {
@@ -253,7 +251,7 @@
 	/* 头部 轮播图 */
 	.carousel-section {
 		position: relative;
-		padding-top: 10px;
+		padding-top: 0px;
 
 		.titleNview-placing {
 			height: var(--status-bar-height);
