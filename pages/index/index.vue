@@ -3,18 +3,18 @@
 		<!-- 小程序头部兼容 -->
 		<!-- #ifdef MP -->
 		<view class="mp-search-box">
-			<input class="ser-input" type="text" value="输入关键字搜索" disabled />
+			<input class="ser-input" type="text" value="输入关键字搜索" />
 		</view>
 		<!-- #endif -->
 		
 		<!-- 头部轮播 -->
-		<view class="carousel-section">
+		<view class="carousel-section ">
 			<!-- 标题栏和状态栏占位符 -->
 			<view class="titleNview-placing"></view>
 			<!-- 背景色区域 -->
 			<view class="titleNview-background" :style="{backgroundColor:'#09c762'}"></view>
 			<swiper class="carousel" circular @change="swiperChange">
-				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item">
+				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item ">
 					<image  :src="item.image" />
 				</swiper-item>
 			</swiper>
@@ -25,6 +25,19 @@
 				<text class="num">{{swiperLength}}</text>
 			</view>
 		</view>
+		<!-- <view class="index-header">
+			<view class="icon_header">
+				<view class="index-search" @tap="toSearchIndex">
+					<view class="icon_search">
+						<text class="iconfont icon-search"></text>
+						<text>请输入您需要搜索的商品名称</text>
+					</view>
+				</view>
+				<view class="icon_suji" @tap="toZujiIndex">
+					<text class="iconfont icon-zuji"></text>
+				</view>
+			</view>
+		</view> -->
 		<!-- 分类 -->
 		<view class="cate-section" v-for="items in cateList">
 			<view class="cate-item" v-for="item in items"  :key="items.length" @click="goToProductList(item.id,item.name)">
@@ -41,7 +54,7 @@
 
 		<!-- 猜你喜欢 -->
 		<view class="f-header m-t">
-			<image src="/static/temp/h1.png"></image>
+			<image src="/static/temp/hotgoods.png"></image>
 			<view class="tit-box">
 				<text class="tit">热卖商品</text>
 				<text class="tit2">Hot Sale</text>
@@ -108,28 +121,7 @@
 					that.goodsList = res.results
 					
 				})
-				// this.$request('categorys','GET',{is_tab:true},this,function(res){
-				// 	let arr = []
-				// 	let index = 0
-					
-				// 	res.forEach(f=>{
-				// 		if(f.is_tab)
-				// 		{
-				// 			arr = arr.concat({id:f.id,name:f.name})
-				// 			console.log(arr)
-				// 			if(arr.length == 4)
-				// 			{
-								
-				// 				that.cateList[index] = arr
-				// 				index++;
-				// 				arr = []
-				// 			}
-				// 		}
-				// 		that.$set(that.cateList,that.cateList,true);
-				// 	})
-					// if(arr != []){that.cateList[index] = arr;console.log(2);}
-					//console.log(that.cateList)
-				// })
+				
 				
 				//轮播图 
 				uni.request({
