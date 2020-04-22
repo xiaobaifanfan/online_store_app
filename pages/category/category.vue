@@ -14,7 +14,7 @@
 						<text>全部</text>
 					</view>
 					<view @click="navToList(titem.id,titem.name)" v-if="titem.pid === item.id" class="t-item" v-for="titem in tlist" :key="titem.id">
-						<image :src="titem.picture"></image>
+						<image src="../../static/temp/niupai.png"></image>
 						<text>{{titem.name}}</text>
 					</view>
 				</view>
