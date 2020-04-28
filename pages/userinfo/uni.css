@@ -594,6 +594,7 @@ uni-app,uni-page-head {
 }
 
 uni-page-head .uni-page-head {
+	
     position: fixed;
     left: 0;
     top: 0;

@@ -43,8 +43,8 @@
 </script>
 
 <style lang='scss'>
-	@import "colorui/main.css";
-	@import "colorui/icon.css";
+/* 	@import "./colorui/main.css";*/
+/* 	@import "./colorui/icon.css"; */
 	/*
 		全局公共样式和字体图标
 	*/

@@ -69,7 +69,7 @@
 		</view>
 
 		<view class="guess-section">
-			<view v-for="(item, index) in goodsList" :key="index" class="guess-item" @click="navToDetailPage(item)" v-if="index < 6">
+			<view v-for="(item, index) in goodsList" :key="index" class="guess-item" @click="navToDetailPage(item)">
 				<view class="image-wrapper">
 					<image :src="item.goods_front_image" mode="aspectFill"></image>
 				</view>
@@ -78,27 +78,7 @@
 			</view>
 		</view>
 
-		<view v-for="(item,index) in goodsSort">
-				<view class="f-header m-t" style="border-bottom: #CCCCCC solid 1rpx;" @click="goToProductList(item.id,item.name)">
-					<image :src="cateList[0][index].img" mode="aspectFill" style="border: 1px solid rgb(9, 187, 7);border-radius: 50%;opacity: 0.7;"></image>
-					<view class="tit-box">
-						<text class="tit" >{{cateList[0][index].name}}</text>
-						<text class="tit2">{{cateList[0][index].english}}</text>
-					</view>
-					<text class="yticon icon-you"></text>
-				</view>
-				<view class="guess-section">
-					<view v-for="(subitem, index) in item.goods" :key="index" class="guess-item" @click="navToDetailPage(item)" v-if="index < 6">
-						<view class="image-wrapper">
-							<image :src="subitem.goods_front_image" mode="aspectFill"></image>
-						</view>
-						<text class="title clamp">{{subitem.name}}</text>
-						<text class="price" style="text-align: center;">￥{{subitem.shop_price}}</text>
-					</view>
-				</view>
-			
-			
-		</view>
+
 	</view>
 </template>
 
@@ -111,51 +91,42 @@
 				swiperCurrent: 0,
 				swiperLength: 0,
 				carouselList: [],
-				goodsList: [],//热卖商品推荐
-				goodsListnew: [],//新品商品推荐
-				goodsSort:[],//分类展示商品
+				goodsList: [],
+				goodsListnew: [],
 				cateList: [
 					[{
 						name: "生鲜食品",
 						id: '1',
-						img: '../../static/temp/niupai.png',
-						english:"Fresh Goods"
+						img: '../../static/temp/niupai.png'
 					}, {
 						name: '酒水饮料',
 						id: '24',
-						img: '../../static/temp/jiushui.png',
-						english:'Feverage'
+						img: '../../static/temp/jiushui.png'
 					}, {
 						name: '粮油副食',
 						id: '40',
-						img: '../../static/temp/liangyou.png',
-						english:''
+						img: '../../static/temp/liangyou.png'
 					}, {
 						name: '蔬菜水果',
 						id: '57',
-						img: '../../static/temp/Vegetables-.png',
-						english:''
+						img: '../../static/temp/Vegetables-.png'
 					}],
 					[{
 						name: '休闲食品',
 						id: '73',
-						img: '../../static/temp/tangguo.png',
-						english:''
+						img: '../../static/temp/tangguo.png'
 					}, {
 						name: '奶类食品',
 						id: '102',
-						img: '../../static/temp/niunai.png',
-						english:''
+						img: '../../static/temp/niunai.png'
 					}, {
 						name: '天然干货',
 						id: '108',
-						img: '../../static/temp/mogu.png',
-						english:''
+						img: '../../static/temp/mogu.png'
 					}, {
 						name: '精选茗茶',
 						id: '117',
-						img: '../../static/temp/tea.png',
-						english:''
+						img: '../../static/temp/tea.png'
 					}]
 				]
 
@@ -192,18 +163,12 @@
 					that.goodsListnew = res.results
 
 				})
-				uni.request({
-					url:'http://shop.projectsedu.com/indexgoods/',
-					success:(res)=>{
-						this.goodsSort=res.data;
-					}
-				})
-				
+
 				//轮播图 
 				uni.request({
 					url: 'http://shop.projectsedu.com/banners/',
 					success: (res) => {
-						//console.log(res);
+						console.log(res);
 						let carouselList = res.data;
 						this.titleNViewBackground = carouselList[0].background;
 						this.swiperLength = carouselList.length;
@@ -242,22 +207,22 @@
 		// },
 		//点击导航栏 buttons 时触发
 		onNavigationBarButtonTap(e) {
-			const index = e.index;
-			if (index === 0) {
-				this.$api.msg('点击了扫描');
-			} else if (index === 1) {
-				// #ifdef APP-PLUS
-				const pages = getCurrentPages();
-				const page = pages[pages.length - 1];
-				const currentWebview = page.$getAppWebview();
-				currentWebview.hideTitleNViewButtonRedDot({
-					index
-				});
-				// #endif
-				uni.navigateTo({
-					url: '/pages/notice/notice'
-				})
-			}
+			// const index = e.index;
+			// if (index === 0) {
+			// 	this.$api.msg('点击了扫描');
+			// } else if (index === 1) {
+			// 	// #ifdef APP-PLUS
+			// 	const pages = getCurrentPages();
+			// 	const page = pages[pages.length - 1];
+			// 	const currentWebview = page.$getAppWebview();
+			// 	currentWebview.hideTitleNViewButtonRedDot({
+			// 		index
+			// 	});
+			// 	// #endif
+			// 	uni.navigateTo({
+			// 		url: '/pages/notice/notice'
+			// 	})
+			// }
 		}
 		// #endif
 	}

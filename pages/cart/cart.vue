@@ -19,6 +19,7 @@
 					<view
 						class="cart-item" 
 						:class="{'b-b': index!==cartList.length-1}"
+						style="border-bottom: 1px solid #f1f3f6;"
 					>
 						<view class="image-wrapper">
 							<image :src="item.goods.goods_front_image" 
@@ -30,7 +31,7 @@
 								@error="onImageError('cartList', index)"
 								@click="goToProductPage(item.goods.id)"
 							></image>
-							<!-- <view 
+						<!-- 	<view 
 								class="yticon icon-xuanzhong2 checkbox"
 								:class="{checked: item.checked}"
 								@click="check('item', index)"
@@ -55,6 +56,8 @@
 					</view>
 				</block>
 			</view>
+			
+			
 			<!-- 底部菜单栏 -->
 			<view class="action-section">
 				<view class="checkbox">
