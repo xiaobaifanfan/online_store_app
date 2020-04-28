@@ -27,8 +27,8 @@
 		</view>
 
 		<!-- 分类 -->
-		<view class="cate-section" v-for="items in cateList">
-			<view class="cate-item" v-for="item in items" :key="items.length" @click="goToProductList(item.id,item.name)">
+		<view class="cate-section" >
+			<view class="cate-item" v-for="item in cateList" >
 				<image style="border: #09BB07 1rpx solid;" :src="item.img"></image>
 				<text>{{item.name}}</text>
 			</view>
@@ -69,7 +69,7 @@
 		</view>
 
 		<view class="guess-section">
-			<view v-for="(item, index) in goodsList" :key="index" class="guess-item" @click="navToDetailPage(item)" v-if="index < 6">
+			<view v-for="(item, index) in goodsList" :key="index" class="guess-item" @click="navToDetailPage(item)" v-if="index < 6" style="border: 1px dotted #CCCCCC;">
 				<view class="image-wrapper">
 					<image :src="item.goods_front_image" mode="aspectFill"></image>
 				</view>
@@ -79,17 +79,17 @@
 		</view>
 
 		<view v-for="(item,index) in goodsSort">
-				<view class="f-header m-t" style="border-bottom: #CCCCCC solid 1rpx;" @click="goToProductList(item.id,item.name)">
-					<image :src="cateList[0][index].img" mode="aspectFill" style="border: 1px solid rgb(9, 187, 7);border-radius: 50%;opacity: 0.7;"></image>
+				<view class="f-header m-t"  @click="goToProductList(cateList[index].id,cateList[index].name)" style="border-bottom: 3px solid #f5f5f5;">
+					<image :src="cateList[index].img" mode="aspectFill" style="border: 1px solid rgb(9, 187, 7);border-radius: 50%;opacity: 0.7;"></image>
 					<view class="tit-box">
-						<text class="tit" >{{cateList[0][index].name}}</text>
-						<text class="tit2">{{cateList[0][index].english}}</text>
+						<text class="tit" >{{cateList[index].name}}</text>
+						<text class="tit2">{{cateList[index].english}}</text>
 					</view>
 					<text class="yticon icon-you"></text>
 				</view>
 				<view class="guess-section">
 					<view v-for="(subitem, index) in item.goods" :key="index" class="guess-item" @click="navToDetailPage(item)" v-if="index < 6">
-						<view class="image-wrapper">
+						<view class="image-wrapper" style="border: 1px dotted #CCCCCC;">
 							<image :src="subitem.goods_front_image" mode="aspectFill"></image>
 						</view>
 						<text class="title clamp">{{subitem.name}}</text>
@@ -115,7 +115,7 @@
 				goodsListnew: [],//新品商品推荐
 				goodsSort:[],//分类展示商品
 				cateList: [
-					[{
+					{
 						name: "生鲜食品",
 						id: '1',
 						img: '../../static/temp/niupai.png',
@@ -135,8 +135,7 @@
 						id: '57',
 						img: '../../static/temp/Vegetables-.png',
 						english:''
-					}],
-					[{
+					},{
 						name: '休闲食品',
 						id: '73',
 						img: '../../static/temp/tangguo.png',
@@ -156,9 +155,9 @@
 						id: '117',
 						img: '../../static/temp/tea.png',
 						english:''
-					}]
+					}
 				]
-
+				
 			};
 		},
 
@@ -408,9 +407,11 @@
 		.cate-item {
 			display: flex;
 			flex-direction: column;
+			padding: 8px 10px;
 			align-items: center;
 			font-size: $font-sm + 2upx;
 			color: $font-color-dark;
+			
 		}
 
 		/* 原图标颜色太深,不想改图了,所以加了透明度 */
