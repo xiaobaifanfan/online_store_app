@@ -19,9 +19,9 @@
 					<view
 						class="cart-item" 
 						:class="{'b-b': index!==cartList.length-1}"
-						 @click="goToProductPage(item.goods.id)"
+						
 					>
-						<view class="image-wrapper">
+						<view class="image-wrapper"  @click="goToProductPage(item.goods.id)">
 							<image :src="item.goods.goods_front_image" 
 								:class="[item.loaded]"
 								mode="aspectFill" 
@@ -35,7 +35,7 @@
 								@click="check('item', index)"
 							></view> -->
 						</view>
-						<view class="item-right">
+						<view class="item-right"  @click="goToProductPage(item.goods.id)">
 							<text class="clamp title">{{item.goods.name}}</text>
 							<text class="attr">{{item.attr_val}}</text>
 							<text class="price">¥{{item.goods.shop_price}}</text>

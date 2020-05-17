@@ -18,16 +18,11 @@
 		</navigator>
 
 		<view class="goods-section">
-<!-- 			<view class="g-header b-b">
-				<image class="logo" src="http://duoduo.qibukj.cn/./Upload/Images/20190321/201903211727515.png"></image>
-				<text class="name">西城小店铺</text>
-			</view> -->
 			<!-- 商品列表 -->
 			<view class="g-item" v-for="item in order">
 				<image :src="item.goods_image"></image>
 				<view class="right">
 					<text class="title clamp">{{item.goods_name}}</text>
-					<!-- <text class="spec">春装款 L</text> -->
 					<view class="price-box">
 						<text class="price">{{item.goods_price}}</text>
 						<text class="number">x{{item.nums}}</text>
@@ -37,36 +32,13 @@
 			
 		</view>
 
-		<!-- 优惠明细 -->
-<!-- 		<view class="yt-list">
-			<view class="yt-list-cell b-b" @click="toggleMask('show')">
-				<view class="cell-icon">
-					券
-				</view>
-				<text class="cell-tit clamp">优惠券</text>
-				<text class="cell-tip active">
-					选择优惠券
-				</text>
-				<text class="cell-more wanjia wanjia-gengduo-d"></text>
-			</view>
-			<view class="yt-list-cell b-b">
-				<view class="cell-icon hb">
-					减
-				</view>
-				<text class="cell-tit clamp">商家促销</text>
-				<text class="cell-tip disabled">暂无可用优惠</text>
-			</view>
-		</view> -->
+	
 		<!-- 金额明细 -->
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">商品金额</text>
 				<text class="cell-tip">￥{{allPrice}}</text>
 			</view>
-			<!-- <view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">优惠金额</text>
-				<text class="cell-tip red">-￥35</text>
-			</view> -->
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">运费</text>
 				<text class="cell-tip">免运费</text>
@@ -87,29 +59,7 @@
 			<text class="submit" @click="submit">提交订单</text>
 		</view>
 		
-		<!-- 优惠券面板 -->
-		<view class="mask" :class="maskState===0 ? 'none' : maskState===1 ? 'show' : ''" @click="toggleMask">
-			<view class="mask-content" @click.stop.prevent="stopPrevent">
-				<!-- 优惠券页面，仿mt -->
-				<view class="coupon-item" v-for="(item,index) in couponList" :key="index">
-					<view class="con">
-						<view class="left">
-							<text class="title">{{item.title}}</text>
-							<text class="time">有效期至2019-06-30</text>
-						</view>
-						<view class="right">
-							<text class="price">{{item.price}}</text>
-							<text>满30可用</text>
-						</view>
-						
-						<view class="circle l"></view>
-						<view class="circle r"></view>
-					</view>
-					<text class="tips">限新用户使用</text>
-				</view>
-			</view>
-		</view>
-
+		
 	</view>
 </template>
 
@@ -119,29 +69,12 @@
 			return {
 				order:[],
 				allPrice:0,
-				
-				
-				
 				maskState: 0, //优惠券面板显示状态
 				desc: '', //备注
 				payType: 1, //1微信 2支付宝
-				couponList: [
-					{
-						title: '新用户专享优惠券',
-						price: 5,
-					},
-					{
-						title: '庆五一发一波优惠券',
-						price: 10,
-					},
-					{
-						title: '优惠券优惠券优惠券优惠券',
-						price: 15,
-					}
-				],
 				addressData: {
-					name: '许小星',
-					mobile: '13853989563',
+					name: '',
+					mobile: '',
 					addressName: '金九大道',
 					address: '山东省济南市历城区',
 					area: '149号',
@@ -162,28 +95,15 @@
 			})
 		},
 		methods: {
-			//显示优惠券面板
-			toggleMask(type){
-				let timer = type === 'show' ? 10 : 300;
-				let	state = type === 'show' ? 1 : 0;
-				this.maskState = 2;
-				setTimeout(()=>{
-					this.maskState = state;
-				}, timer)
-			},
-			numberChange(data) {
-				this.number = data.number;
-			},
-			changePayType(type){
-				this.payType = type;
-			},
+			
+			
 			submit(){
 				var that = this
 				this.$request('orders/','POST',{
 					post_script:that.desc,
 					singer_mobile:that.addressData.signer_mobile,
 					signer_name:that.addressData.signer_name,
-					address:that.addressData.address,
+					address:that.addressData.province + that.addressData.city + that.addressData.district+that.addressData.address,
 					order_mount:that.allPrice
 				},this,function(res){
 					uni.showToast({

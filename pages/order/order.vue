@@ -1,6 +1,6 @@
 <template>
 	<view class="content" v-if="loadType">
-		<view class="navbar">
+		<view class="navbar" style="display: none;">
 			<view 
 				v-for="(item, index) in navList" :key="index" 
 				class="nav-item" 
@@ -24,7 +24,7 @@
 					<view 
 						v-for="(item,index) in tabItem.orderList" :key="index"
 						class="order-item"
-						@click="goToOrderDetailPage(item)"
+						
 					>
 						<view class="i-top b-b">
 							<text class="time">{{item.add_time.split('T')[0]}} &nbsp;&nbsp; {{item.add_time.split('T')[1]}}</text>
@@ -48,6 +48,7 @@
 						<view 
 							class="goods-box-single"
 							v-for="(goodsItem, goodsIndex) in item.orderDetail.goods" :key="goodsIndex"
+							@click="goToOrderDetailPage(item)"
 						>
 							<image class="goods-img" :src="goodsItem.goods.goods_front_image" mode="aspectFill"></image>
 							<view class="right">
@@ -65,8 +66,8 @@
 							<text class="price">143.7</text>
 						</view>
 						<view class="action-box b-t" v-if="item.pay_status==='paying'">
-							<button class="action-btn" @click="cancelOrder(item)">取消订单</button>
-							<button class="action-btn recom">立即支付</button>
+							<button class="action-btn" @click="cancelOrder(item,index)">取消订单</button>
+							<button class="action-btn recom" @click="goToOrderDetailPage(item)">立即支付</button>
 						</view>
 					</view>
 					 
@@ -100,13 +101,12 @@
 						text: '全部',
 						loadingType: 'more',
 						orderList: []
-					},
-					// {
-					// 	state: 1,
-					// 	text: '待付款',
-					// 	loadingType: 'more',
-					// 	orderList: []
-					// },
+					 },// {
+					//  	state: 1,
+					//  	text: '待付款',
+					//  	loadingType: 'more',
+					//  	orderList: []
+					//  },
 					// {
 					// 	state: 2,
 					// 	text: '待收货',
@@ -125,6 +125,7 @@
 					// 	loadingType: 'more',
 					// 	orderList: []
 					// }
+					
 				],
 			};
 		},
@@ -181,7 +182,7 @@
 							that.nowLength++;
 						})
 					},function(){
-						that.navList[0].orderList = eRes
+						 that.navList[0].orderList = eRes
 					})
 				})
 				// //这里是将订单挂载到tab列表下
@@ -242,22 +243,42 @@
 				}, 600)
 			},
 			//取消订单
-			cancelOrder(item){
+			cancelOrder(item,index){
 				uni.showLoading({
 					title: '请稍后'
 				})
-				setTimeout(()=>{
-					let {stateTip, stateTipColor} = this.orderStateExp(9);
-					item = Object.assign(item, {
-						state: 9,
-						stateTip, 
-						stateTipColor
-					})
-					
-					//取消订单后删除待付款中该项
-					let list = this.navList[1].orderList;
-					let index = list.findIndex(val=>val.id === item.id);
-					index !== -1 && list.splice(index, 1);
+				console.log("click cancel order")
+					var that =this;
+					this.$request('orders/'+item.id+'/','DELETE',{},this,function(res){
+						uni.showToast({
+							title:'删除成功',
+							icon:'success'
+						})
+						that.navList[0].orderList.splice(index, 1);
+						uni.hideLoading();
+					},
+					function(error){
+						uni.showToast({
+							title:'未找到',
+							icon:'success'
+						})
+					}),
+					// this.$request('order/'+item.id+'/','DELETE',{ },this,function(res){
+					// 	console.log("success");
+					// 	uni.showToast({
+					// 		title:'删除成功',
+					// 		icon:'success'
+					// 	})
+					// },function(error){
+					// 	console.log("failed")
+					// })
+					setTimeout(()=>{
+						let {stateTip, stateTipColor} = this.orderStateExp(9);
+						item = Object.assign(item, {
+							state: 9,
+							stateTip, 
+							stateTipColor
+						})
 					
 					uni.hideLoading();
 				}, 600)

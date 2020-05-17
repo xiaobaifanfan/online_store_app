@@ -28,7 +28,7 @@
 
 		<!-- 分类 -->
 		<view class="cate-section" >
-			<view class="cate-item" v-for="item in cateList" >
+			<view class="cate-item" v-for="item in cateList" @click="goToProductList(item.id,item.name)">
 				<image style="border: #09BB07 1rpx solid;" :src="item.img"></image>
 				<text>{{item.name}}</text>
 			</view>
@@ -69,8 +69,8 @@
 		</view>
 
 		<view class="guess-section">
-			<view v-for="(item, index) in goodsList" :key="index" class="guess-item" @click="navToDetailPage(item)" v-if="index < 6" style="border: 1px dotted #CCCCCC;">
-				<view class="image-wrapper">
+			<view v-for="(item, index) in goodsList" :key="index" class="guess-item" @click="navToDetailPage(item)" v-if="index < 6" >
+				<view class="image-wrapper" style="border: 1px dotted #CCCCCC;">
 					<image :src="item.goods_front_image" mode="aspectFill"></image>
 				</view>
 				<text class="title clamp">{{item.name}}</text>
@@ -179,6 +179,19 @@
 			 */
 			async loadData() {
 				var that = this
+				//轮播图
+				uni.request({
+					url: 'http://shop.projectsedu.com/banners/',
+					success: (res) => {
+						//console.log(res);
+						let carouselList = res.data;
+						this.titleNViewBackground = carouselList[0].background;
+						this.swiperLength = carouselList.length;
+						this.carouselList = carouselList;
+				
+					}
+				});
+				//请求goodlists
 				this.$request('goods', 'GET', {
 					is_hot: false
 				}, this, function(res) {
@@ -191,6 +204,25 @@
 					that.goodsListnew = res.results
 
 				})
+				// for(var i = 0 ; i < that.cateList.length  ; i++){
+				// 	uni.request({
+				// 		url:"http://101.133.224.55:8001/goods/",
+				// 		method:'GET',
+				// 		data:{
+				// 			top_category:that.cateList[i].id
+				// 		},
+				// 		success:(res)=>{
+				// 			that.goodsSort1.push(res.data.results);
+				// 			that.goodsSort.concat({res.data.results});
+				// 			console.log(res.data.results)
+				// 		},
+						
+				// 	})
+					
+				// }
+				// console.log(that.goodsSort1);
+				// console.log(that.goodsSort)
+				// console.log("huoqucccccccccc")
 				uni.request({
 					url:'http://shop.projectsedu.com/indexgoods/',
 					success:(res)=>{
@@ -198,18 +230,7 @@
 					}
 				})
 				
-				//轮播图 
-				uni.request({
-					url: 'http://shop.projectsedu.com/banners/',
-					success: (res) => {
-						//console.log(res);
-						let carouselList = res.data;
-						this.titleNViewBackground = carouselList[0].background;
-						this.swiperLength = carouselList.length;
-						this.carouselList = carouselList;
-
-					}
-				});
+				
 
 
 			},
@@ -407,7 +428,8 @@
 		.cate-item {
 			display: flex;
 			flex-direction: column;
-			padding: 8px 10px;
+			// padding: 8px 10px;
+			width: 23vw;
 			align-items: center;
 			font-size: $font-sm + 2upx;
 			color: $font-color-dark;

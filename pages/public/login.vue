@@ -17,6 +17,7 @@
 						placeholder="请输入用户名"
 						maxlength="11"
 						v-model="username"
+						@focus="setShowloging"
 
 					/>
 				</view>
@@ -27,9 +28,10 @@
 						maxlength="20"
 						password 
 						v-model="password"
-
+						@focus="setShowloging"
 					/>
 				</view>
+				<view v-if="logining"> <text style="color: red;" >用户名或密码错误！请重新输入</text></view>
 			</view>
 			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录</button>
 			<view class="forget-section">
@@ -51,8 +53,8 @@
 	export default{
 		data(){
 			return {
-				username: 'jytest',
-				password: 'Cf221002',
+				username: 'admin',
+				password: 'YZY19970101',
 				logining: false
 			}
 		},
@@ -73,8 +75,11 @@
 					url:'/pages/public/register'
 				})
 			},
+			setShowloging(){
+				this.logining = false;
+			},
 			async toLogin(){
-				this.logining = true;
+				this.logining = false;
 				var that = this
 				this.$request('login/','POST',{username:that.username,password:that.password},this,function(res){
 					that.$store.commit("login",{username:that.username,token:res.token})
@@ -85,9 +90,13 @@
 						})
 					},2000)
 				
-				},function(){},function(){
-					that.logining = false
+				},function(){
+					that.logining = true;
+					that.$api.msg('登录失败');
 				})
+				,function(){
+					
+				}
 				// const {mobile, password} = this;
 				// /* 数据验证模块
 				// if(!this.$api.match({

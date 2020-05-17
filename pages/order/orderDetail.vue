@@ -1,15 +1,15 @@
 <template>
 	<view>
 		<!-- 地址 -->
-		<navigator class="address-section">
+		<navigator  class="address-section">
 			<view class="order-content">
 				<text class="yticon icon-shouhuodizhi"></text>
 				<view class="cen">
 					<view class="top">
-						<text class="name">{{addressData.signer_name}}</text>
-						<text class="mobile">{{addressData.signer_mobile}}</text>
+						<text class="name">{{addressData.name}}</text>
+						<text class="mobile">{{addressData.mobile}}</text>
 					</view>
-					<text class="address">{{addressData.province + addressData.city +addressData.district}} {{addressData.address}}</text>
+					<text class="address">{{addressData.address}}</text>
 				</view>
 				<text class="yticon icon-you"></text>
 			</view>
@@ -73,7 +73,7 @@
 			</view>
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">备注</text>
-				<input class="desc" type="text" v-model="desc" placeholder="请填写备注信息" placeholder-class="placeholder" />
+				<input class="desc" type="text" v-model="addressData.post_script" placeholder="请填写备注信息" placeholder-class="placeholder" />
 			</view>
 		</view>
 		
@@ -91,28 +91,7 @@
 			<text  class="submit" v-if="pay_status==='TRADE_SUCCESS'">成功</text>
 		</view>
 		
-		<!-- 优惠券面板 -->
-		<view class="mask" :class="maskState===0 ? 'none' : maskState===1 ? 'show' : ''" @click="toggleMask">
-			<view class="mask-content" @click.stop.prevent="stopPrevent">
-				<!-- 优惠券页面，仿mt -->
-				<view class="coupon-item" v-for="(item,index) in couponList" :key="index">
-					<view class="con">
-						<view class="left">
-							<text class="title">{{item.title}}</text>
-							<text class="time">有效期至2019-06-30</text>
-						</view>
-						<view class="right">
-							<text class="price">{{item.price}}</text>
-							<text>满30可用</text>
-						</view>
-						
-						<view class="circle l"></view>
-						<view class="circle r"></view>
-					</view>
-					<text class="tips">限新用户使用</text>
-				</view>
-			</view>
-		</view>
+		
 
 	</view>
 </template>
@@ -130,27 +109,9 @@
 				maskState: 0, //优惠券面板显示状态
 				desc: '', //备注
 				payType: 1, //1微信 2支付宝
-				couponList: [
-					{
-						title: '新用户专享优惠券',
-						price: 5,
-					},
-					{
-						title: '庆五一发一波优惠券',
-						price: 10,
-					},
-					{
-						title: '优惠券优惠券优惠券优惠券',
-						price: 15,
-					}
-				],
+				
 				addressData: {
-					name: '许小星',
-					mobile: '13853989563',
-					addressName: '金九大道',
-					address: '山东省济南市历城区',
-					area: '149号',
-					default: false,
+					
 				}
 			}
 		},
@@ -161,9 +122,9 @@
 				that.pay_status = res.pay_status
 				that.addressData = {
 					post_script:res.post_script,
-					singer_mobile:res.post_script,
-					signer_name:res.post_script,
-					address:res.post_script,
+					mobile:res.singer_mobile,
+					name:res.signer_name,
+					address:res.address,
 				}
 				res.goods.forEach(item=>{
 					that.order.push({
@@ -178,6 +139,8 @@
 				})
 				
 			})
+			console.log(that.addressData)
+			console.log("000000000000000")
 			
 		},
 		methods: {

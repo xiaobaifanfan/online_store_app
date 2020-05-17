@@ -44,9 +44,9 @@
 							<uni-number-box 
 								class="step"
 								:min="1" 
-								:max="item.user"
-								:value="item.nums>item.user?item.user:item.nums"
-								:isMax="item.nums>=item.user?true:false"
+								:max="100"
+								:value="item.nums"
+								:isMax="item.nums>=100?true:false"
 								:isMin="item.nums===1"
 								:index="index"
 								@eventChange="numberChange"
@@ -61,14 +61,10 @@
 			<!-- 底部菜单栏 -->
 			<view class="action-section">
 				<view class="checkbox">
-					<!-- <image 
-						:src="allChecked?'/static/selected.png':'/static/select.png'" 
-						mode="aspectFit"
-						@click="check('all')"
-					></image>
+				
 					<view class="clear-btn" :class="{show: allChecked}" @click="clearCart">
 						清空
-					</view> -->
+					</view>
 				</view>
 				<view class="total-box">
 					<text class="price">¥{{total}}</text>
@@ -237,7 +233,7 @@
 				uni.navigateTo({
 					url: `/pages/order/createOrder`
 				})
-				this.$api.msg('跳转下一页 sendData');
+				// this.$api.msg('跳转下一页 sendData');
 			},
 			goToProductPage(id)
 			{
